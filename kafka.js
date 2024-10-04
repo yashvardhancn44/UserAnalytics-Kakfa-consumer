@@ -47,7 +47,11 @@ async function consumeMessages() {
         const { productId, eventType, timestamp, duration, userId } = value;
         console.log(`${productId}, ${eventType}`);
         // console.log(value);
-        await handleProductView(productId, timestamp, duration);
+        if (value && productId !== undefined) {
+          await handleProductView(productId, timestamp, duration);
+        } else {
+          console.error("Invalid message structure:", value);
+        }
       }
     },
   });

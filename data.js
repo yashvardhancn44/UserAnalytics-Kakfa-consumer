@@ -17,7 +17,11 @@ const loadData = async () => {
 };
 
 const updateBuyClicks = (id) => {
-  console.log(` before: ${cacheData[id].buyClicks}`);
+  // console.log(` before: ${cacheData[id].buyClicks}`);
+  if (id === undefined) {
+    cacheData[id].buyClicks = cacheData[id].buyClicks + 0;
+    return;
+  }
   cacheData[id].buyClicks++;
   console.log(` after: ${cacheData[id].buyClicks}`);
 };
