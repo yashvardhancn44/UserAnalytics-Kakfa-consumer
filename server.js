@@ -27,7 +27,7 @@ const startServer = async () => {
   startWebsocket();
   await initKafkaConsumer();
   consumeMessages();
-  app.listen(PORT, () => {
+  app.listen(process.env.PORT || PORT, () => {
     console.log(`Server is running on Port 3000`);
   });
 };
