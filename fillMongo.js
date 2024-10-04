@@ -139,4 +139,50 @@ const insertData = async () => {
 };
 
 // Run the data insertion
-insertData();
+// insertData();
+
+const insertOrUpdateData = async () => {
+  try {
+    for (const product of initialProducts) {
+      // Find the product by productId
+      const existingProduct = await Product.findOne({
+        productId: product.productId,
+      });
+
+      if (!existingProduct) {
+        // If the product does not exist, create it
+        await Product.create(product);
+        console.log(
+          `Inserted product: ${product.name} (ID: ${product.productId})`
+        );
+      } else {
+        // If the product exists, update its details
+        await Product.updateOne(
+          { productId: product.productId },
+          {
+            $set: {
+              name: product.name,
+              buyClicks: product.buyClicks,
+              views: product.views,
+              viewHistory: product.viewHistory,
+              buyHistory: product.buyHistory,
+              // Add any other fields you want to update
+            },
+          }
+        );
+        console.log(
+          `Updated product: ${product.name} (ID: ${product.productId})`
+        );
+      }
+    }
+    console.log("Data insertion and updation complete.");
+  } catch (error) {
+    console.error("Error inserting/updating data:", error);
+  } finally {
+    // Ensure the database connection is closed
+    mongoose.disconnect();
+  }
+};
+
+// Call the function
+insertOrUpdateData();
